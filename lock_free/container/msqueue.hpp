@@ -9,7 +9,7 @@
 
 /*
 *   Lock-free Michael-Scott Queue
-*   Multi-producer, multi-consumer stack.
+*   Multi-producer, multi-consumer queue.
 *   @tparam T - values type
 *   @tparam Backoff - backoff strategy type
 */
