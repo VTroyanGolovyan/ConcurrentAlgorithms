@@ -9,3 +9,4 @@ TODO
 
 SMR schemas(safe memory reclamation):
 * [Hazard pointers](http://erdani.org/publications/cuj-2004-12.pdf)
+TODO
