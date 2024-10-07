@@ -13,6 +13,7 @@
 * Counting Semaphore
 * ThreadPool
 * Mutex
+* Shared Mutex
 * Condition Variable
 
 
