@@ -11,9 +11,10 @@ public:
     ConditionVariable(const ConditionVariable& /*other*/) = delete;
 
     template <typename Lockable>
-    void wait(Lockable& lock ) {
+    void wait(Lockable& lock) {
+        uint32_t value = wait_.load();
         lock.unlock();
-        wait_.wait(wait_.load());
+        wait_.wait(value);
         lock.lock();
     }
 
@@ -34,7 +35,7 @@ public:
         wait_.notify_one();
     }
 private:
-    std::atomic<uint64_t> wait_{0};
+    std::atomic<uint32_t> wait_{0};
 };
 
 }

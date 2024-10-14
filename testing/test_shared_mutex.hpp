@@ -4,23 +4,19 @@ TEST(TestSharedMutex, Counter) {
     int x = 0;
     std::atomic<size_t> y = 0;
     synchronize::SharedMutex m;
-    std::thread th1([&]() {
-        for (size_t i = 0; i < 100000; ++i) {
-            m.lock();
-            ++x;
-            m.unlock();
-        }
-    });
-    std::thread th2([&]() {
-        for (size_t i = 0; i < 100000; ++i) {
-            m.lock();
-            ++x;
-            m.unlock();
-        }
-    });
+    std::vector<std::thread> ths;
+    for (int i = 0; i < 2; ++i) {
+        ths.emplace_back([&]() {
+            for (size_t i = 0; i < 100000; ++i) {
+                m.lock();
+                ++x;
+                m.unlock();
+            }
+        });
+    }
 
     std::atomic<size_t> b;
-    std::thread th3([&]() {
+    ths.emplace_back([&]() {
         for (size_t i = 0; i < 100000; ++i) {
             m.lock_shared();
             b += x;
@@ -28,8 +24,8 @@ TEST(TestSharedMutex, Counter) {
         }
     });
 
-    th1.join();
-    th2.join();
-    th3.join();
+    for (auto& th : ths) {
+        th.join();
+    }
     ASSERT_EQ(x, 200000);
 }

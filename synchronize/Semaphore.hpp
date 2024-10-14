@@ -17,17 +17,18 @@ public:
     void Aquire() {
         std::unique_lock<Mutex> lk(m_);
         non_zero_counter_.wait(lk, [&]() { return counter_ > 0; });
-        --zero_counter_;
+        --counter_;
     }
 
     void Release() {
         std::lock_guard<Mutex> lk(m_);
-        ++zero_counter_;
+        ++counter_;
+        non_zero_counter_.notify_all();
     }
     
 private:
     Mutex m_;
-    ConditionVariable non_zero_counter_{LeastMaxValue};
+    ConditionVariable non_zero_counter_;
     size_t counter_{LeastMaxValue};
 
 };

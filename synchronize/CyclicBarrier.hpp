@@ -20,7 +20,7 @@ private:
 
     uint32_t count_;
     uint32_t current_wave_{0};
-    std::array<uint32_t, 2> wawe_counters_; 
+    std::array<uint32_t, 2> wave_counters_; 
 };
 
 }
