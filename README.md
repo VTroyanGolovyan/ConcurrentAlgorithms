@@ -8,14 +8,14 @@
 ### SMR schema(safe memory reclamation):
 * [Hazard pointers](http://erdani.org/publications/cuj-2004-12.pdf)
 
-Project contains some popular synchronization primitives implementation
+Project contains some popular synchronization primitives implementation:
 ### Synchronization:
-* Mutex
-* Condition Variable
-* Shared Mutex
-* Latch
-* CyclicBarierr // TODO
-* Counting Semaphore
+* [Mutex](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/Mutex.hpp)
+* [Condition Variable](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/ConditionVariable.hpp)
+* [Shared Mutex](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/SharedMutex.hpp)
+* [Latch](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/Latch.hpp)
+* [CyclicBarierr](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/CyclicBarrier.hpp)
+* [Semaphore](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/Semaphore.hpp)
 
 
 ### Other:
