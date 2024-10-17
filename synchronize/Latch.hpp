@@ -6,6 +6,9 @@
 
 namespace synchronize {
 
+/*
+* @brief Latch
+*/
 class Latch {
 public:
 
