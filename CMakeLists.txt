@@ -20,6 +20,19 @@ add_subdirectory(lock_free)
 add_subdirectory(synchronize)
 enable_testing ()
 
-add_executable(TESTS testing/tests.cpp)
-target_link_libraries(TESTS gtest_main gmock_main Sync LockFree)
-add_test (NAME TESTS COMMAND TESTS)
+set(TESTS 
+      test_barrier
+      test_latch                 
+      test_semaphore
+      test_condition_variable
+      test_mutex
+      test_shared_mutex
+)
+
+foreach (_test ${TESTS})
+
+add_executable(${_test} testing/${_test}.cpp)
+target_link_libraries(${_test} gtest_main gmock_main Sync LockFree)
+add_test (NAME ${_test} COMMAND ${_test})
+
+endforeach ()
