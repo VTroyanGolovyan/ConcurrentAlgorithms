@@ -23,10 +23,10 @@ enable_testing ()
 set(TESTS 
       test_mutex
       test_condition_variable
-      test_semaphore
       test_shared_mutex
       test_latch
-      test_barrier     
+      test_semaphore
+      test_barrier    
 )
 
 foreach (_test ${TESTS})
