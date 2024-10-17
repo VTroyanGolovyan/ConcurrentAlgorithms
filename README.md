@@ -22,4 +22,5 @@ Project contains some popular synchronization primitives implementation:
 * ThreadPool // TODO
 
 Third-party:
-https://github.com/kaniini/libucontext/tree/master
+* https://github.com/google/googletest (Testing)
+* https://github.com/kaniini/libucontext/tree/master
