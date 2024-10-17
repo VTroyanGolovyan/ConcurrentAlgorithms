@@ -15,11 +15,11 @@ public:
     void arrive_and_wait();
 
 private:
-    Mutex m_;
-    ConditionVariable all_arrive_;
+    synchronize::Mutex m_;
+    synchronize::ConditionVariable all_arrive_;
 
     uint32_t count_;
-    uint32_t current_wave_{0};
+    uint32_t current_wave_;
     std::array<uint32_t, 2> wave_counters_; 
 };
 

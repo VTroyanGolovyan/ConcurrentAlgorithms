@@ -26,6 +26,7 @@ TEST(TestBarrier, OrderCheck) {
                     std::lock_guard<synchronize::Mutex> lk(m);
                     vector.push_back(0);
                 }
+                barrier.arrive_and_wait();
             }
             
         });
