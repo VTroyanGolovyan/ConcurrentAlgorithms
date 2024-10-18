@@ -24,4 +24,3 @@ Project contains some popular synchronization primitives implementation:
 
 Third-party:
 * https://github.com/google/googletest (Testing)
-* https://github.com/kaniini/libucontext/tree/master
