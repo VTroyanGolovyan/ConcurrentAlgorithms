@@ -1,3 +1,7 @@
+#ifndef WAIT_GROUP_HPP
+#define WAIT_GROUP_HPP
+
+
 #include <atomic>
 
 namespace synchronize {
@@ -15,3 +19,5 @@ private:
 };
 
 }
+
+#endif

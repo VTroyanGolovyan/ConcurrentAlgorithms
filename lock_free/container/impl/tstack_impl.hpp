@@ -23,14 +23,14 @@ std::optional<T> LockFreeStack<T, Backoff>::TryPop() {
         Node* curr_top = top_guard.Protect(top_);
 
         if (curr_top == nullptr) {
-        return std::nullopt;
+            return std::nullopt;
         }
 
         if (top_.compare_exchange_weak(curr_top, curr_top->next)) {
-        T value = std::move(curr_top->value);
-        top_guard.Reset();
-        mutator.Retire(curr_top);
-        return value;
+            T value = std::move(curr_top->value);
+            top_guard.Reset();
+            mutator.Retire(curr_top);
+            return value;
         }
 
         backoff();

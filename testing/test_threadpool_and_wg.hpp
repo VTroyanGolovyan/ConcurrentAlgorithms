@@ -1,7 +1,7 @@
 #include "../synchronize/scheduler/ThreadPool.hpp"
 #include "../synchronize/wait_group/WaitGroup.hpp"
 
-TEST(TestSharedMutex, Counter) {
+TEST(TestThreadPoolAndWG, Counter) {
     synchronize::tp::ThreadPool tp(4);
     std::atomic<int> cnt = 0;
     tp.Start();

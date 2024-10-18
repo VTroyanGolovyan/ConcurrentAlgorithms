@@ -33,7 +33,6 @@ void ThreadPool::WorkerBody() {
     std::optional<Task> current_task;
     current_threadpool = this;
     while ((current_task = tasks_.Pop())) {
-        
         (*current_task)();
     }
     current_threadpool = nullptr;

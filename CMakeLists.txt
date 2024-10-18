@@ -31,6 +31,7 @@ set(TESTS
       test_semaphore
       test_barrier    
       test_threadpool_and_wg
+      test_future
 )
 
 foreach (_test ${TESTS})
