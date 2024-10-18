@@ -31,6 +31,7 @@ set(TESTS
       test_latch
       test_semaphore
       test_barrier    
+      test_threadpool_and_wg
 )
 
 foreach (_test ${TESTS})
@@ -40,3 +41,6 @@ target_link_libraries(${_test} gtest_main gmock_main Sync LockFree)
 add_test (NAME ${_test} COMMAND ${_test})
 
 endforeach ()
+
+add_executable(Main sandbox.cpp)
+target_link_libraries(Main Sync LockFree)

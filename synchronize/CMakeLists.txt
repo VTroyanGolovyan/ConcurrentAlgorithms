@@ -15,6 +15,8 @@ set(SOURCE_FILES
     SpinLock.cpp 
     Latch.cpp 
     CyclicBarrier.cpp 
+    ./wait_group/WaitGroup.cpp
+    ./scheduler/ThreadPool.cpp
 )
 
 add_library(Sync ${SOURCE_FILES})

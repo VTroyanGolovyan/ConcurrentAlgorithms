@@ -1,0 +1,38 @@
+#ifndef BLOCKING_QUEUE_IMPL_HPP
+#define BLOCKING_QUEUE_IMPL_HPP
+
+#include <mutex> // lock guard/unique lock
+
+namespace synchronize {
+
+template <typename T>
+void BlockingQueue<T>::Push(T value) {
+    std::lock_guard<Mutex> lk(m_);
+    queue_.push_back(std::move(value));
+    any_data_or_close_.notify_one();
+}
+
+template <typename T>
+std::optional<T> BlockingQueue<T>::Pop() {
+    std::unique_lock<Mutex> lk(m_);
+    any_data_or_close_.wait(lk, [&]() {
+        return !queue_.empty() || is_closed_;
+    });
+    if (queue_.empty()) {
+        return {};
+    }
+    T result = std::move(queue_.front());
+    queue_.pop_front();
+    return result;
+}
+
+template <typename T>
+void BlockingQueue<T>::Close() {
+    std::lock_guard<Mutex> lk(m_);
+    is_closed_ = true;
+    any_data_or_close_.notify_all();
+}
+
+}
+
+#endif
