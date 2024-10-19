@@ -31,35 +31,35 @@ doxygen Doxyfile
 Usage example:
 
 ```cpp
-    synchronize::tp::ThreadPool tp(4);
-    std::atomic<int> cnt = 0;
-    tp.Start();
-    synchronize::Promise<int> promise;
+synchronize::tp::ThreadPool tp(4);
+std::atomic<int> cnt = 0;
+tp.Start();
+synchronize::Promise<int> promise;
 
-    synchronize::Future<int> future = promise.GetFuture();
+synchronize::Future<int> future = promise.GetFuture();
 
-    synchronize::WaitGroup wg;
-    for (size_t i = 0; i < 1000; ++i) {
-        wg.Add(1);
-        tp.Submit(
-            [&, k=i]() {
-                for (size_t i = 0; i < 10000; ++i) {
-                    ++cnt;
-                    if (k == 5 && i == 1999) {
-                        promise.SetValue(i);
-                    }
+synchronize::WaitGroup wg;
+for (size_t i = 0; i < 1000; ++i) {
+    wg.Add(1);
+    tp.Submit(
+        [&, k=i]() {
+            for (size_t i = 0; i < 10000; ++i) {
+                ++cnt;
+                if (k == 5 && i == 1999) {
+                    promise.SetValue(i);
                 }
-                wg.Done();
             }
-        );
-    }
+            wg.Done();
+        }
+    );
+}
 
-    std::cout << future.Get() << std::endl;
+std::cout << future.Get() << std::endl;
 
-    wg.Wait();
-    std::cout << cnt << std::endl;
-    tp.Stop();
-    std::cout << cnt << std::endl;
+wg.Wait();
+std::cout << cnt << std::endl;
+tp.Stop();
+std::cout << cnt << std::endl;
 ```
 ### Third-party:
 * [GoogleTest](https://github.com/google/googletest) (used for Testing)
