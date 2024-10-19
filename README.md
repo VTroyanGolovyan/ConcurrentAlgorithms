@@ -16,11 +16,11 @@ Project contains some popular synchronization primitives implementation:
 * [Latch](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/Latch.hpp)
 * [Cyclic Barierr](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/CyclicBarrier.hpp)
 * [Semaphore](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/Semaphore.hpp)
-* [Wait Group]
-* [Feature/Promise]
+* [Wait Group](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/wait_group/WaitGroup.hpp)
+* [Feature/Promise](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/future/)
 
 ### Other:
-* ThreadPool
+* [ThreadPool](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/scheduler/)
 
 ### Documentation
 You can use doxygen to get docs.
