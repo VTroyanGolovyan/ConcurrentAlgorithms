@@ -30,15 +30,7 @@ doxygen Doxyfile
 
 Usage example:
 
-```
-#include <iostream>
-#include "synchronize/scheduler/ThreadPool.hpp"
-#include "synchronize/wait_group/WaitGroup.hpp"
-#include "synchronize/wait_group/WaitGroup.hpp"
-#include "synchronize/future/Future.hpp"
-
-int main() {
-
+```cpp
     synchronize::tp::ThreadPool tp(4);
     std::atomic<int> cnt = 0;
     tp.Start();
@@ -68,9 +60,6 @@ int main() {
     std::cout << cnt << std::endl;
     tp.Stop();
     std::cout << cnt << std::endl;
-
-    return 0; 
-}
 ```
 ### Third-party:
 * [GoogleTest](https://github.com/google/googletest) (used for Testing)
