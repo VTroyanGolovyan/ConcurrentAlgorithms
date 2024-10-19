@@ -22,5 +22,11 @@ Project contains some popular synchronization primitives implementation:
 ### Other:
 * ThreadPool
 
-Third-party:
+### Documentation
+You can use doxygen to get docs.
+```
+doxygen Doxyfile
+```
+
+### Third-party:
 * https://github.com/google/googletest (Testing)

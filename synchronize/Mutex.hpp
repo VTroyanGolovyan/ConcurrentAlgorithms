@@ -6,18 +6,18 @@
 
 namespace synchronize {
 
-// @brief Mutex, synchronization primitive that can be used to protect shared data
+/** @brief Mutex, synchronization primitive that can be used to protect shared data */
 class Mutex {
 public:
     Mutex() = default;
-    // no copy-constructible
+    /** no copy-constructible */
     Mutex(const Mutex& /*other*/) = delete; 
-    // no copy-assignable
+    /** no copy-assignable */
     Mutex& operator=(const Mutex& /*other*/) = delete;
 
-    /* @brief locks the mutex, blocks if the mutex is not available */
+    /** @brief locks the mutex, blocks if the mutex is not available */
     void lock();
-    /* @brief unlocks the mutex */
+    /** @brief unlocks the mutex */
     void unlock();
 
 private:

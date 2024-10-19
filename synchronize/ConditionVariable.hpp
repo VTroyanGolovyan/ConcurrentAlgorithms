@@ -5,6 +5,10 @@
 
 namespace synchronize {
 
+/**
+*  @brief ConditionVariable is a synchronization primitive used with a Mutex to 
+*         block one or more threads until another thread both modifies a shared variable (the condition) and notifies the ConditionVariable.
+*/
 class ConditionVariable {
 public:
     ConditionVariable() = default;

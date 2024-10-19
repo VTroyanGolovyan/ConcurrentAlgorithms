@@ -5,8 +5,8 @@
 #include <atomic>
 
 namespace synchronize {
-/*
-* Use it for task waiting in ThreadPool
+/**
+* Use it for task finish waiting in ThreadPool
 */
 class WaitGroup {
 public:
