@@ -29,4 +29,4 @@ doxygen Doxyfile
 ```
 
 ### Third-party:
-* https://github.com/google/googletest (Testing)
+* [GoogleTest](https://github.com/google/googletest) (used for Testing)
