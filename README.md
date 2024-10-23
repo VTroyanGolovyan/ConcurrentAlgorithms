@@ -43,8 +43,8 @@ for (size_t i = 0; i < 400000; ++i) {
 wg.Add(1);
 fiber::Go(scheduler, [&wg, &scheduler, &x] {
     for (size_t j = 0; j < 100; ++j) {
-    ++x;
-    fiber::Yield();
+        ++x;
+        fiber::Yield();
     }
     wg.Done();
 });
