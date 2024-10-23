@@ -2,11 +2,22 @@ cmake_minimum_required(VERSION 3.17)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-project(Sync)
+project(sync)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20 -fsanitize=thread")
+include(FetchContent)
+
+set (BOOST_ENABLE_CMAKE ON)
+
+FetchContent_Declare(
+  Boost
+  URL https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.xz
+  USES_TERMINAL_DOWNLOAD TRUE
+  DOWNLOAD_NO_EXTRACT FALSE
+)
+
+FetchContent_MakeAvailable(boost)
+
+message(${boost_SOURCE_DIR})
 
 set(SOURCE_FILES 
     Mutex.cpp
@@ -17,6 +28,14 @@ set(SOURCE_FILES
     CyclicBarrier.cpp 
     ./wait_group/WaitGroup.cpp
     ./scheduler/ThreadPool.cpp
+    ./coro/Coroutine.cpp
+    ./fiber/Fiber.cpp
 )
 
-add_library(Sync ${SOURCE_FILES})
+add_library(sync ${SOURCE_FILES})
+target_include_directories(
+    sync PUBLIC 
+    ${boost_SOURCE_DIR}
+    ${Boost_INCLUDE_DIRS}
+)
+target_link_libraries(sync Boost::context)
