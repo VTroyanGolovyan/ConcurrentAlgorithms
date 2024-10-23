@@ -43,12 +43,12 @@ scheduler.Start();
 
 fiber::Go(scheduler, [&] {
     while (true) {
-        auto socket_ptr = io.Accept();
+        auto socket_ptr = io.Accept(); // fiber will be suspended, while asynchronous accept works
         fiber::Go(scheduler, [&wg, &io, socket_ptr]() mutable {
-        while (true) {
-            auto res = io.ReadSome(*socket_ptr);
-            io.Write(*socket_ptr, res);
-        }
+          while (true) {
+              auto res = io.ReadSome(*socket_ptr); // fiber will be suspended, while asynchronous read works
+              io.Write(*socket_ptr, res); // fiber will be suspended, while asynchronous write works
+          }
         });
     }
 });

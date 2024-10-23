@@ -11,7 +11,7 @@
 
 int main() {
 
-  synchronize::tp::ThreadPool scheduler(4);
+  synchronize::tp::ThreadPool scheduler(12);
   fiber::IoService io(9000);
 
   scheduler.Start();
@@ -22,8 +22,12 @@ int main() {
       fiber::Go([&io, socket_ptr]() mutable {
         while (true) {
           auto res = io.ReadSome(*socket_ptr);
+          if (res.empty()) {
+            break;
+          }
           io.Write(*socket_ptr, res);
         }
+        socket_ptr->close();
       });
     }
 

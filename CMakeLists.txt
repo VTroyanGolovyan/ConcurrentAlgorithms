@@ -58,11 +58,3 @@ target_link_libraries(Sandbox sync LockFree)
 add_executable(EchoFiber fiber_echo.cpp)
 target_include_directories(EchoFiber PRIVATE ${boost_SOURCE_DIR})
 target_link_libraries(EchoFiber Boost::context Boost::asio sync)
-
-add_executable(EchoBlocking echo_blocking.cpp)
-target_include_directories(EchoBlocking PRIVATE ${boost_SOURCE_DIR})
-target_link_libraries(EchoBlocking Boost::context Boost::asio sync)
-
-add_executable(UnlimThEchoBlocking unlimited_threads_echo.cpp)
-target_include_directories(UnlimThEchoBlocking PRIVATE ${boost_SOURCE_DIR})
-target_link_libraries(UnlimThEchoBlocking Boost::context Boost::asio sync)
