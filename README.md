@@ -21,6 +21,8 @@ Project contains some popular synchronization primitives implementation:
 
 ### Other:
 * [ThreadPool](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/scheduler/)
+* [Coroutine]
+* [Fibers]
 
 ### Documentation
 You can use doxygen to get docs.
@@ -40,14 +42,14 @@ synchronize::WaitGroup wg;
 
 std::atomic<int> x{0};
 for (size_t i = 0; i < 400000; ++i) {
-wg.Add(1);
-fiber::Go(scheduler, [&wg, &scheduler, &x] {
-    for (size_t j = 0; j < 100; ++j) {
-        ++x;
-        fiber::Yield();
-    }
-    wg.Done();
-});
+    wg.Add(1);
+    fiber::Go(scheduler, [&wg, &scheduler, &x] {
+        for (size_t j = 0; j < 100; ++j) {
+            ++x;
+            fiber::Yield();
+        }
+        wg.Done();
+    });
 }
 
 wg.Wait();
@@ -55,6 +57,28 @@ std::cout << x.load();
 scheduler.Stop();
 ```
 
+### Echo Server
+```cpp
+
+synchronize::tp::ThreadPool scheduler{2};
+fiber::IoService io(9000);
+scheduler.Start();
+
+fiber::Go(scheduler, [&] {
+    while (true) {
+        auto socket_ptr = io.Accept();
+        fiber::Go(scheduler, [&wg, &io, socket_ptr]() mutable {
+        while (true) {
+            auto res = io.ReadSome(*socket_ptr);
+            io.Write(*socket_ptr, res);
+        }
+        });
+    }
+});
+
+io.RunService();
+scheduler.Stop();
+```
 ### ThreadPool
 ```cpp
 synchronize::tp::ThreadPool tp(4);

@@ -7,7 +7,7 @@ using Body = std::function<void()>;
 
 thread_local Fiber* current_fiber{nullptr};
 
-Fiber::Fiber(Body task) : task_(std::move(task)), coro_([this](auto self){
+Fiber::Fiber(synchronize::tp::ThreadPool& scheduler, Body task) : task_(std::move(task)), scheduler_(&scheduler), coro_([this](auto self){
     RunBody(self);
 })  {
 }
@@ -40,11 +40,26 @@ void Yield() {
 }
 
 void Go(synchronize::tp::ThreadPool& scheduler, Body body) {
-    Fiber* fiber = new Fiber(body);
+    Fiber* now = Fiber::Self();
+    Fiber* fiber = new Fiber(scheduler, body);
     scheduler.Submit([fiber]() {
         current_fiber = fiber;
         fiber->coro_.Resume();
         current_fiber = nullptr;
+    });
+}
+
+void Suspend() {
+    Fiber* now = Fiber::Self();
+    now->ctx_->Suspend();
+}
+
+void JumpBackToScheduler(Fiber* fiber) {
+    fiber->scheduler_->Submit([fiber]() {
+        while (fiber->coro_.Running()) {
+        }
+        current_fiber = fiber;
+        fiber->coro_.Resume();
     });
 }
 

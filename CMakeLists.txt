@@ -61,4 +61,4 @@ add_executable(Context contexts.cpp)
 message(${boost_SOURCE_DIR})
 
 target_include_directories(Context PRIVATE ${boost_SOURCE_DIR})
-target_link_libraries(Context Boost::context sync)
+target_link_libraries(Context Boost::context Boost::asio sync)

@@ -30,6 +30,7 @@ set(SOURCE_FILES
     ./scheduler/ThreadPool.cpp
     ./coro/Coroutine.cpp
     ./fiber/Fiber.cpp
+    ./fiber/io/io.cpp
 )
 
 add_library(sync ${SOURCE_FILES})
@@ -38,4 +39,4 @@ target_include_directories(
     ${boost_SOURCE_DIR}
     ${Boost_INCLUDE_DIRS}
 )
-target_link_libraries(sync Boost::context)
+target_link_libraries(sync Boost::context Boost::asio)
