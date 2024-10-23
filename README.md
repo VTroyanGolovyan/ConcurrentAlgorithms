@@ -32,7 +32,7 @@ Usage examples:
 
 ### Fibers
 
-```
+```cpp
 synchronize::tp::ThreadPool scheduler{2};
   scheduler.Start();
 
