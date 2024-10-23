@@ -34,25 +34,25 @@ Usage examples:
 
 ```cpp
 synchronize::tp::ThreadPool scheduler{2};
-  scheduler.Start();
+scheduler.Start();
 
-  synchronize::WaitGroup wg;
+synchronize::WaitGroup wg;
 
-  std::atomic<int> x{0};
-  for (size_t i = 0; i < 400000; ++i) {
-    wg.Add(1);
-    fiber::Go(scheduler, [&wg, &scheduler, &x] {
-      for (size_t j = 0; j < 100; ++j) {
-        ++x;
-        fiber::Yield();
-      }
-      wg.Done();
-    });
-  }
+std::atomic<int> x{0};
+for (size_t i = 0; i < 400000; ++i) {
+wg.Add(1);
+fiber::Go(scheduler, [&wg, &scheduler, &x] {
+    for (size_t j = 0; j < 100; ++j) {
+    ++x;
+    fiber::Yield();
+    }
+    wg.Done();
+});
+}
 
-  wg.Wait();
-  std::cout << x.load();
-  scheduler.Stop();
+wg.Wait();
+std::cout << x.load();
+scheduler.Stop();
 ```
 
 ### ThreadPool
