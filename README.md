@@ -21,6 +21,7 @@ Project contains some popular synchronization primitives implementation:
 
 ### Other:
 * [ThreadPool](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/scheduler/)
+* [Defer](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/utils/)
 * [Coroutine](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/tree/main/synchronize/coro)
 * [Fibers](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/tree/main/synchronize/fiber)
 * [Non-blocking socket operations for fibers](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/tree/main/synchronize/fiber/io)
@@ -68,11 +69,11 @@ std::atomic<int> x{0};
 for (size_t i = 0; i < 400000; ++i) {
     wg.Add(1);
     fiber::Go(scheduler, [&wg, &scheduler, &x] {
+        utils::Defer def([&wg]() { wg.Done(); });
         for (size_t j = 0; j < 100; ++j) {
             ++x;
             fiber::Yield();
         }
-        wg.Done();
     });
 }
 
@@ -92,10 +93,10 @@ for (size_t i = 0; i < 1000; ++i) {
     wg.Add(1);
     tp.Submit(
         [&, k=i]() {
+            utils::Defer def([&wg]() { wg.Done(); });
             for (size_t i = 0; i < 10000; ++i) {
                 ++cnt;
             }
-            wg.Done();
         }
     );
 }

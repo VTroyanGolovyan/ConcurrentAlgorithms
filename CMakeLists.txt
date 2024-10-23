@@ -44,21 +44,25 @@ set(TESTS
       test_future
 )
 
-#foreach (_test ${TESTS})
+foreach (_test ${TESTS})
 
-#add_executable(${_test} testing/${_test}.cpp)
-#target_link_libraries(${_test} gtest_main gmock_main Sync LockFree)
-#add_test (NAME ${_test} COMMAND ${_test})
-#endforeach ()
+  add_executable(${_test} testing/${_test}.cpp)
+  target_link_libraries(${_test} gtest_main gmock_main sync LockFree)
+  add_test (NAME ${_test} COMMAND ${_test})
 
-#add_executable(Main sandbox.cpp)
-#target_link_libraries(Main Sync LockFree)
+endforeach ()
 
+add_executable(Sandbox sandbox.cpp)
+target_link_libraries(Sandbox sync LockFree)
 
+add_executable(EchoFiber fiber_echo.cpp)
+target_include_directories(EchoFiber PRIVATE ${boost_SOURCE_DIR})
+target_link_libraries(EchoFiber Boost::context Boost::asio sync)
 
-add_executable(Context contexts.cpp)
+add_executable(EchoBlocking echo_blocking.cpp)
+target_include_directories(EchoBlocking PRIVATE ${boost_SOURCE_DIR})
+target_link_libraries(EchoBlocking Boost::context Boost::asio sync)
 
-message(${boost_SOURCE_DIR})
-
-target_include_directories(Context PRIVATE ${boost_SOURCE_DIR})
-target_link_libraries(Context Boost::context Boost::asio sync)
+add_executable(UnlimThEchoBlocking unlimited_threads_echo.cpp)
+target_include_directories(UnlimThEchoBlocking PRIVATE ${boost_SOURCE_DIR})
+target_link_libraries(UnlimThEchoBlocking Boost::context Boost::asio sync)

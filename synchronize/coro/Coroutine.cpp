@@ -39,6 +39,9 @@ void StackfullCoroutine::Resume() {
     coro_context_ = transfer.fctx;
     completed_ = completed_body_.load();
     running_ = false;
+    if (exception_) {
+        std::rethrow_exception(exception_);
+    }
 }
 
 bool StackfullCoroutine::IsCompleted() {
@@ -64,7 +67,11 @@ void CoroutineLogic(
     current_coroutine_ = nullptr;
     SuspendContext self(&transfer);
     self.Suspend();
-    coro->task_(self);
+    try {
+        coro->task_(self);
+    } catch(...) {
+        coro->exception_ = std::current_exception();
+    }
     coro->completed_body_ = true;
     self.Suspend();
 }

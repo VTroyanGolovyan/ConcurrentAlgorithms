@@ -4,7 +4,9 @@
 #include <boost/context/detail/fcontext.hpp>
 #include <boost/context/protected_fixedsize_stack.hpp>
 
+#include <exception>
 #include <functional>
+#include <stdexcept>
 
 namespace coro {
 
@@ -48,6 +50,8 @@ private:
     std::atomic<bool> running_{false};
     std::atomic<bool> completed_body_{false};
     std::atomic<bool> completed_{false};
+
+    std::exception_ptr exception_;
 };
 
 

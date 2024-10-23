@@ -19,7 +19,11 @@ Fiber* Fiber::Fiber::Self() {
 void Fiber::RunBody(coro::SuspendContext& ctx) {
     current_fiber = this;
     ctx_ = ctx;
-    task_();
+    try {
+        task_();
+    } catch (...) {
+        exception_ = std::current_exception();
+    }
     current_fiber = nullptr;
 }
 
@@ -27,6 +31,9 @@ void Yield() {
     Fiber* now = Fiber::Self();
     synchronize::tp::ThreadPool::GetCurrentThreadpool()->Submit([now]() {
         while (now->coro_.Running()) {
+        }
+        if (now->exception_) {
+            std::rethrow_exception(now->exception_);
         }
         if (now->coro_.IsCompleted()) {
             current_fiber = nullptr;
@@ -47,6 +54,11 @@ void Go(synchronize::tp::ThreadPool& scheduler, Body body) {
         fiber->coro_.Resume();
         current_fiber = nullptr;
     });
+}
+
+void Go(Body body) {
+    Fiber* now = Fiber::Self();
+    Go(*now->scheduler_, body);
 }
 
 void Suspend() {

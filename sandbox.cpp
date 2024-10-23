@@ -1,8 +1,10 @@
 #include <iostream>
+
 #include "synchronize/scheduler/ThreadPool.hpp"
 #include "synchronize/wait_group/WaitGroup.hpp"
 #include "synchronize/wait_group/WaitGroup.hpp"
 #include "synchronize/future/Future.hpp"
+#include "synchronize/utils/Defer.hpp"
 
 int main() {
 
@@ -18,13 +20,15 @@ int main() {
         wg.Add(1);
         tp.Submit(
             [&, k=i]() {
+                utils::Defer def([&wg]() { wg.Done(); });
+
                 for (size_t i = 0; i < 10000; ++i) {
                     ++cnt;
                     if (k == 5 && i == 1999) {
                         promise.SetValue(i);
                     }
                 }
-                wg.Done();
+                
             }
         );
     }

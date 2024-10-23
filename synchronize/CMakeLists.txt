@@ -31,6 +31,7 @@ set(SOURCE_FILES
     ./coro/Coroutine.cpp
     ./fiber/Fiber.cpp
     ./fiber/io/io.cpp
+    ./utils/Defer.cpp
 )
 
 add_library(sync ${SOURCE_FILES})
