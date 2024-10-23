@@ -21,8 +21,9 @@ Project contains some popular synchronization primitives implementation:
 
 ### Other:
 * [ThreadPool](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/blob/main/synchronize/scheduler/)
-* [Coroutine]
-* [Fibers]
+* [Coroutine](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/tree/main/synchronize/coro)
+* [Fibers](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/tree/main/synchronize/fiber)
+* [Non-blocking socket operations for fibers](https://github.com/VTroyanGolovyan/ConcurrentAlgorithmsAndDS/tree/main/synchronize/fiber/io)
 
 ### Documentation
 You can use doxygen to get docs.
@@ -31,6 +32,29 @@ doxygen Doxyfile
 ```
 
 Usage examples:
+
+### Echo Server
+```cpp
+
+synchronize::tp::ThreadPool scheduler{2};
+fiber::IoService io(9000);
+scheduler.Start();
+
+fiber::Go(scheduler, [&] {
+    while (true) {
+        auto socket_ptr = io.Accept();
+        fiber::Go(scheduler, [&wg, &io, socket_ptr]() mutable {
+        while (true) {
+            auto res = io.ReadSome(*socket_ptr);
+            io.Write(*socket_ptr, res);
+        }
+        });
+    }
+});
+
+io.RunService();
+scheduler.Stop();
+```
 
 ### Fibers
 
@@ -57,28 +81,6 @@ std::cout << x.load();
 scheduler.Stop();
 ```
 
-### Echo Server
-```cpp
-
-synchronize::tp::ThreadPool scheduler{2};
-fiber::IoService io(9000);
-scheduler.Start();
-
-fiber::Go(scheduler, [&] {
-    while (true) {
-        auto socket_ptr = io.Accept();
-        fiber::Go(scheduler, [&wg, &io, socket_ptr]() mutable {
-        while (true) {
-            auto res = io.ReadSome(*socket_ptr);
-            io.Write(*socket_ptr, res);
-        }
-        });
-    }
-});
-
-io.RunService();
-scheduler.Stop();
-```
 ### ThreadPool
 ```cpp
 synchronize::tp::ThreadPool tp(4);
